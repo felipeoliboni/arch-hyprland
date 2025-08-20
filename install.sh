@@ -87,7 +87,7 @@ if ! whiptail --title "Proceed with Installation?" \
     exit 1
 fi
 
-echo "👌 ${OK} 🇵🇭 ${MAGENTA}KooL..${RESET} ${SKY_BLUE}lets continue with the installation...${RESET}" | tee -a "$LOG"
+echo "👌 ${OK} 🇵🇭 ${MAGENTA}..${RESET} ${SKY_BLUE}lets continue with the installation...${RESET}" | tee -a "$LOG"
 
 sleep 1
 printf "\n%.0s" {1..1}
@@ -214,11 +214,11 @@ if check_services_running; then
 fi
 
 # Check if NVIDIA GPU is detected
-nvidia_detected=false
-if lspci | grep -i "nvidia" &> /dev/null; then
-    nvidia_detected=true
-    whiptail --title "NVIDIA GPU Detected" --msgbox "NVIDIA GPU detected in your system.\n\nNOTE: The script will install nvidia-dkms, nvidia-utils, and nvidia-settings if you chose to configure." 12 60
-fi
+# nvidia_detected=false
+# if lspci | grep -i "nvidia" &> /dev/null; then
+#     nvidia_detected=true
+#     whiptail --title "NVIDIA GPU Detected" --msgbox "NVIDIA GPU detected in your system.\n\nNOTE: The script will install nvidia-dkms, nvidia-utils, and nvidia-settings if you chose to configure." 12 60
+# fi
 
 # Initialize the options array for whiptail checklist
 options_command=(
@@ -226,12 +226,12 @@ options_command=(
 )
 
 # Add NVIDIA options if detected
-if [ "$nvidia_detected" == "true" ]; then
-    options_command+=(
-        "nvidia" "Do you want script to configure NVIDIA GPU?" "OFF"
-        "nouveau" "Do you want Nouveau to be blacklisted?" "OFF"
-    )
-fi
+# if [ "$nvidia_detected" == "true" ]; then
+#     options_command+=(
+#         "nvidia" "Do you want script to configure NVIDIA GPU?" "OFF"
+#         "nouveau" "Do you want Nouveau to be blacklisted?" "OFF"
+#     )
+# fi
 
 # Add 'input_group' option if user is not in input group
 input_group_detected=false
@@ -264,8 +264,8 @@ options_command+=(
     "xdph" "Install XDG-DESKTOP-PORTAL-HYPRLAND (for screen share)?" "OFF"
     "zsh" "Install zsh shell with Oh-My-Zsh?" "OFF"
     "pokemon" "Add Pokemon color scripts to your terminal?" "OFF"
-    "rog" "Are you installing on Asus ROG laptops?" "OFF"
-    "dots" "Download and install pre-configured KooL Hyprland dotfiles?" "OFF"
+    # "rog" "Are you installing on Asus ROG laptops?" "OFF"
+    # "dots" "Download and install pre-configured KooL Hyprland dotfiles?" "OFF"
 )
 
 # Capture the selected options before the while loop starts
@@ -351,7 +351,7 @@ fi
 sleep 1
 
 # Run the Hyprland related scripts
-echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland additional packages...${RESET}" | tee -a "$LOG"
+echo "${INFO} Installing ${SKY_BLUE} additional packages...${RESET}" | tee -a "$LOG"
 sleep 1
 execute_script "01-hypr-pkgs.sh"
 
@@ -386,14 +386,14 @@ for option in "${options[@]}"; do
                 execute_script "sddm.sh"
             fi
             ;;
-        nvidia)
-            echo "${INFO} Configuring ${SKY_BLUE}nvidia stuff${RESET}" | tee -a "$LOG"
-            execute_script "nvidia.sh"
-            ;;
-        nouveau)
-            echo "${INFO} blacklisting ${SKY_BLUE}nouveau${RESET}"
-            execute_script "nvidia_nouveau.sh" | tee -a "$LOG"
-            ;;
+        # nvidia)
+        #     echo "${INFO} Configuring ${SKY_BLUE}nvidia stuff${RESET}" | tee -a "$LOG"
+        #     execute_script "nvidia.sh"
+        #     ;;
+        # nouveau)
+        #     echo "${INFO} blacklisting ${SKY_BLUE}nouveau${RESET}"
+        #     execute_script "nvidia_nouveau.sh" | tee -a "$LOG"
+        #     ;;
         gtk_themes)
             echo "${INFO} Installing ${SKY_BLUE}GTK themes...${RESET}" | tee -a "$LOG"
             execute_script "gtk_themes.sh"
@@ -427,14 +427,14 @@ for option in "${options[@]}"; do
             echo "${INFO} Installing ${SKY_BLUE}zsh with Oh-My-Zsh...${RESET}" | tee -a "$LOG"
             execute_script "zsh.sh"
             ;;
-        pokemon)
-            echo "${INFO} Adding ${SKY_BLUE}Pokemon color scripts to terminal...${RESET}" | tee -a "$LOG"
-            execute_script "zsh_pokemon.sh"
-            ;;
-        rog)
-            echo "${INFO} Installing ${SKY_BLUE}ROG laptop packages...${RESET}" | tee -a "$LOG"
-            execute_script "rog.sh"
-            ;;
+        # pokemon)
+        #     echo "${INFO} Adding ${SKY_BLUE}Pokemon color scripts to terminal...${RESET}" | tee -a "$LOG"
+        #     execute_script "zsh_pokemon.sh"
+        #     ;;
+        # rog)
+        #     echo "${INFO} Installing ${SKY_BLUE}ROG laptop packages...${RESET}" | tee -a "$LOG"
+        #     execute_script "rog.sh"
+        #     ;;
         dots)
             echo "${INFO} Installing pre-configured ${SKY_BLUE}KooL Hyprland dotfiles...${RESET}" | tee -a "$LOG"
             execute_script "dotfiles-main.sh"
@@ -453,6 +453,7 @@ fi
 
 clear
 
+execute_script "dotfiles.sh"
 # final check essential packages if it is installed
 execute_script "02-Final-Check.sh"
 

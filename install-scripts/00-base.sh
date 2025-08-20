@@ -1,6 +1,4 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
-# base-devel + archlinux-keyring #
 
 base=( 
   base-devel
