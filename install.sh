@@ -66,11 +66,6 @@ fi
 clear
 
 printf "\n%.0s" {1..2}  
-echo -e "\e[35m
-	╦╔═┌─┐┌─┐╦    ╦ ╦┬ ┬┌─┐┬─┐┬  ┌─┐┌┐┌┌┬┐
-	╠╩╗│ ││ │║    ╠═╣└┬┘├─┘├┬┘│  ├─┤│││ ││ 2025
-	╩ ╩└─┘└─┘╩═╝  ╩ ╩ ┴ ┴  ┴└─┴─┘┴ ┴┘└┘─┴┘ Arch Linux
-\e[0m"
 printf "\n%.0s" {1..1} 
 
 # Welcome message using whiptail (for displaying information)
@@ -89,7 +84,7 @@ if ! whiptail --title "Proceed with Installation?" \
     exit 1
 fi
 
-echo "👌 ${OK} 🇵🇭 ${MAGENTA}KooL..${RESET} ${SKY_BLUE}lets continue with the installation...${RESET}" | tee -a "$LOG"
+echo "👌 ${OK} ${SKY_BLUE}lets continue with the installation...${RESET}" | tee -a "$LOG"
 
 sleep 1
 printf "\n%.0s" {1..1}
@@ -265,9 +260,6 @@ options_command+=(
     "quickshell" "Install quickshell for Desktop-Like Overview?" "OFF"
     "xdph" "Install XDG-DESKTOP-PORTAL-HYPRLAND (for screen share)?" "OFF"
     "zsh" "Install zsh shell with Oh-My-Zsh?" "OFF"
-    "pokemon" "Add Pokemon color scripts to your terminal?" "OFF"
-    "rog" "Are you installing on Asus ROG laptops?" "OFF"
-    "dots" "Download and install pre-configured KooL Hyprland dotfiles?" "OFF"
 )
 
 # Capture the selected options before the while loop starts
@@ -302,20 +294,20 @@ while true; do
         fi
     done
 
-    # If "dots" is not selected, show a note and ask the user to proceed or return to choices
-    if [[ "$dots_selected" == "OFF" ]]; then
-        # Show a note about not selecting the "dots" option
-        if ! whiptail --title "KooL Hyprland Dot Files" --yesno \
-        "You have not selected to install the pre-configured KooL Hyprland dotfiles.\n\nKindly NOTE that if you proceed without Dots, Hyprland will start with default vanilla Hyprland configuration and I won't be able to give you support.\n\nWould you like to continue install without KooL Hyprland Dots or return to choices/options?" \
-        --yes-button "Continue" --no-button "Return" 15 90; then
-            echo "🔙 Returning to options..." | tee -a "$LOG"
-            continue
-        else
-            # User chose to continue
-            echo "${INFO} ⚠️ Continuing WITHOUT the dotfiles installation..." | tee -a "$LOG"
-			printf "\n%.0s" {1..1}
-        fi
-    fi
+    # # If "dots" is not selected, show a note and ask the user to proceed or return to choices
+    # if [[ "$dots_selected" == "OFF" ]]; then
+    #     # Show a note about not selecting the "dots" option
+    #     if ! whiptail --title "KooL Hyprland Dot Files" --yesno \
+    #     "You have not selected to install the pre-configured KooL Hyprland dotfiles.\n\nKindly NOTE that if you proceed without Dots, Hyprland will start with default vanilla Hyprland configuration and I won't be able to give you support.\n\nWould you like to continue install without KooL Hyprland Dots or return to choices/options?" \
+    #     --yes-button "Continue" --no-button "Return" 15 90; then
+    #         echo "🔙 Returning to options..." | tee -a "$LOG"
+    #         continue
+    #     else
+    #         # User chose to continue
+    #         echo "${INFO} ⚠️ Continuing WITHOUT the dotfiles installation..." | tee -a "$LOG"
+	# 		printf "\n%.0s" {1..1}
+    #     fi
+    # fi
 
     # Prepare the confirmation message
     confirm_message="You have selected the following options:\n\n"
@@ -353,7 +345,7 @@ fi
 sleep 1
 
 # Run the Hyprland related scripts
-echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland additional packages...${RESET}" | tee -a "$LOG"
+echo "${INFO} Installing ${SKY_BLUE}additional packages...${RESET}" | tee -a "$LOG"
 sleep 1
 execute_script "01-hypr-pkgs.sh"
 
@@ -388,14 +380,6 @@ for option in "${options[@]}"; do
                 execute_script "sddm.sh"
             fi
             ;;
-        nvidia)
-            echo "${INFO} Configuring ${SKY_BLUE}nvidia stuff${RESET}" | tee -a "$LOG"
-            execute_script "nvidia.sh"
-            ;;
-        nouveau)
-            echo "${INFO} blacklisting ${SKY_BLUE}nouveau${RESET}"
-            execute_script "nvidia_nouveau.sh" | tee -a "$LOG"
-            ;;
         gtk_themes)
             echo "${INFO} Installing ${SKY_BLUE}GTK themes...${RESET}" | tee -a "$LOG"
             execute_script "gtk_themes.sh"
@@ -429,18 +413,6 @@ for option in "${options[@]}"; do
             echo "${INFO} Installing ${SKY_BLUE}zsh with Oh-My-Zsh...${RESET}" | tee -a "$LOG"
             execute_script "zsh.sh"
             ;;
-        pokemon)
-            echo "${INFO} Adding ${SKY_BLUE}Pokemon color scripts to terminal...${RESET}" | tee -a "$LOG"
-            execute_script "zsh_pokemon.sh"
-            ;;
-        rog)
-            echo "${INFO} Installing ${SKY_BLUE}ROG laptop packages...${RESET}" | tee -a "$LOG"
-            execute_script "rog.sh"
-            ;;
-        dots)
-            echo "${INFO} Installing pre-configured ${SKY_BLUE}KooL Hyprland dotfiles...${RESET}" | tee -a "$LOG"
-            execute_script "dotfiles-main.sh"
-            ;;
         *)
             echo "Unknown option: $option" | tee -a "$LOG"
             ;;
@@ -457,6 +429,8 @@ clear
 
 # final check essential packages if it is installed
 execute_script "02-Final-Check.sh"
+
+execute_script "03-dotfiles.sh"
 
 printf "\n%.0s" {1..1}
 
@@ -486,10 +460,6 @@ if pacman -Q hyprland &> /dev/null || pacman -Q hyprland-git &> /dev/null; then
             echo "👌 ${OK} You chose NOT to reboot"
             printf "\n%.0s" {1..1}
             # Check if NVIDIA GPU is present
-            if lspci | grep -i "nvidia" &> /dev/null; then
-                echo "${INFO} HOWEVER ${YELLOW}NVIDIA GPU${RESET} detected. Reminder that you must REBOOT your SYSTEM..."
-                printf "\n%.0s" {1..1}
-            fi
             break
         else
             echo "${WARN} Invalid response. Please answer with 'y' or 'n'."

@@ -1,14 +1,16 @@
-#!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
-# Hyprland Packages #
-
-# edit your packages desired here. 
-# WARNING! If you remove packages here, dotfiles may not work properly.
-# and also, ensure that packages are present in AUR and official Arch Repo
 
 # add packages wanted here
 Extra=(
-
+  zen-browser-bin
+  google-chrome
+  visual-studio-code-bin
+  discord
+  steam
+  docker
+  gamemode
+  github-cli
+  yadm
+  qbittorrent-enhanced
 )
 
 hypr_package=( 
@@ -59,7 +61,6 @@ hypr_package_2=(
   cava
   loupe
   fastfetch
-  gnome-system-monitor
   mousepad 
   mpv
   mpv-mpris 
@@ -67,8 +68,6 @@ hypr_package_2=(
   nwg-look
   nwg-displays
   pacman-contrib
-  qalculate-gtk
-  yt-dlp
 )
 
 # List of packages to uninstall as it conflicts some packages
@@ -118,7 +117,7 @@ fi
 printf "\n%.0s" {1..1}
 
 # Installation of main components
-printf "\n%s - Installing ${SKY_BLUE}KooL's Hyprland necessary packages${RESET} .... \n" "${NOTE}"
+printf "\n%s - Installing necessary packages.... \n" "${NOTE}"
 
 for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
   install_package "$PKG1" "$LOG"

@@ -1,6 +1,4 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
-# KooL Arch-Hyprland uninstall script #
 
 clear
 
