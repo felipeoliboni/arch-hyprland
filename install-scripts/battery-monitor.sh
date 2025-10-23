@@ -1,5 +1,4 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
 # Battery Monitor and Low Battery Notification #
 
 battery=(

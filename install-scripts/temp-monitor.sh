@@ -1,5 +1,4 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
 # Temperature Monitor - CPU/GPU Temperature Alerts #
 
 temp=(

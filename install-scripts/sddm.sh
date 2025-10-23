@@ -1,5 +1,4 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
 # SDDM Log-in Manager #
 
 sddm=( 

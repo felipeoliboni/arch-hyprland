@@ -1,12 +1,3 @@
-#!/bin/bash
-# XDG-Desktop-Portals hyprland #
-
-xdg=(
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-gtk
-    umockdev
-)
-
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -20,14 +11,9 @@ if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
   exit 1
 fi
 
+# Check if Hyprland-Dots exists
+printf "Final adjustments....\n"
 
-# Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_xdph.log"
+sudo mv /usr/share/sounds/freedesktop/stereo/camera-shutter.oga /usr/share/sounds/freedesktop/stereo/camera-shutter.bak
 
-# XDG-DESKTOP-PORTAL-HYPRLAND
-printf "${NOTE} Installing ${SKY_BLUE}xdg-desktop-portal-hyprland${RESET}\n" 
-for xdgs in "${xdg[@]}"; do
-  install_package "$xdgs" "$LOG"
-done
-    
 printf "\n%.0s" {1..2}

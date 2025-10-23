@@ -1,6 +1,4 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
-# Aylur's GTK Shell v 1.9.0 #
 # for desktop overview
 
 if [[ $USE_PRESET = [Yy] ]]; then

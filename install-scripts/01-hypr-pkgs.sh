@@ -4,13 +4,7 @@ Extra=(
   zen-browser-bin
   google-chrome
   visual-studio-code-bin
-  discord
-  steam
-  docker
-  gamemode
-  github-cli
   yadm
-  qbittorrent-enhanced
 )
 
 hypr_package=( 
