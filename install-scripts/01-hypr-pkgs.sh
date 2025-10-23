@@ -5,6 +5,7 @@ Extra=(
   google-chrome
   visual-studio-code-bin
   yadm
+  htop
 )
 
 hypr_package=( 
