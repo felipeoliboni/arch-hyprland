@@ -51,7 +51,6 @@ hypr_package=(
 # the following packages can be deleted. however, dotfiles may not work properly
 hypr_package_2=(
   brightnessctl 
-  btop
   cava
   loupe
   fastfetch
